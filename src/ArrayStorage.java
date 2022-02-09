@@ -34,12 +34,15 @@ public class ArrayStorage {
                 break;
             }
         }
-        for (int i = index; i < size; i++) {
-            if (i + 1 != size) {
-                storage[i] = storage[i + 1];
+        if (index > 0) {
+            for (int i = index; i < size; i++) {
+                if (i < size - 1) {
+                    storage[i] = storage[i + 1];
+                }
             }
+            storage[size - 1] = null;
+            size--;
         }
-        size--;
     }
 
     /**
