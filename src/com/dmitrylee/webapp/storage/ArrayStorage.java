@@ -9,20 +9,6 @@ import java.util.Arrays;
  */
 public class ArrayStorage extends AbstractArrayStorage{
 
-    public void save(Resume r) {
-        int resumeIndex = findResumeIndex(r.getUuid());
-        if (resumeIndex == -1) {
-            if (size == storage.length) {
-                System.out.println("ERROR: storage is full!");
-                return;
-            }
-            storage[size] = r;
-            size++;
-            return;
-        }
-        System.out.printf("ERROR: resume %s is already in storage\n", storage[resumeIndex].getUuid());
-    }
-
     protected int findResumeIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
@@ -30,5 +16,10 @@ public class ArrayStorage extends AbstractArrayStorage{
             }
         }
         return -1;
+    }
+
+    @Override
+    protected void addItemToStorage(int index, Resume r) {
+        storage[size] = r;
     }
 }

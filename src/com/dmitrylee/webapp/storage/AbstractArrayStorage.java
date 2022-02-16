@@ -7,7 +7,7 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage implements Storage{
+public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
@@ -25,15 +25,6 @@ public abstract class AbstractArrayStorage implements Storage{
         return Arrays.copyOf(storage, size);
     }
 
-    public void update(Resume resume) {
-        int resumeIndex = findResumeIndex(resume.getUuid());
-        if (resumeIndex < 0) {
-            System.out.printf("ERROR: resume %s is not in storage\n", resume.getUuid());
-            return;
-        }
-        storage[resumeIndex] = resume;
-    }
-
     public Resume get(String uuid) {
         int resumeIndex = findResumeIndex(uuid);
         if (resumeIndex < 0) {
@@ -41,6 +32,29 @@ public abstract class AbstractArrayStorage implements Storage{
             return null;
         }
         return storage[resumeIndex];
+    }
+
+    public void save(Resume r) {
+        if (size == STORAGE_LIMIT) {
+            System.out.println("ERROR: storage is full!");
+            return;
+        }
+        int resumeIndex = findResumeIndex(r.getUuid());
+        if (resumeIndex < 0) {
+            addItemToStorage(resumeIndex, r);
+            size++;
+        } else {
+            System.out.printf("ERROR: resume %s is already in storage\n", r.getUuid());
+        }
+    }
+
+    public void update(Resume resume) {
+        int resumeIndex = findResumeIndex(resume.getUuid());
+        if (resumeIndex < 0) {
+            System.out.printf("ERROR: resume %s is not in storage\n", resume.getUuid());
+            return;
+        }
+        storage[resumeIndex] = resume;
     }
 
     public void delete(String uuid) {
@@ -57,4 +71,6 @@ public abstract class AbstractArrayStorage implements Storage{
     }
 
     protected abstract int findResumeIndex(String uuid);
+
+    protected abstract void addItemToStorage(int index, Resume r);
 }
