@@ -1,5 +1,8 @@
 package com.dmitrylee.webapp.storage;
 
+import com.dmitrylee.webapp.exception.ExistStorageException;
+import com.dmitrylee.webapp.exception.NotExistStorageException;
+import com.dmitrylee.webapp.exception.StorageException;
 import com.dmitrylee.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -28,8 +31,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
         int resumeIndex = findResumeIndex(uuid);
         if (resumeIndex < 0) {
-            System.out.printf("ERROR: resume %s is not in storage\n", uuid);
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[resumeIndex];
     }
@@ -37,22 +39,21 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume r) {
         if (size == STORAGE_LIMIT) {
             System.out.println("ERROR: storage is full!");
-            return;
+            throw new StorageException("ERROR: storage is full!", r.getUuid());
         }
         int resumeIndex = findResumeIndex(r.getUuid());
         if (resumeIndex < 0) {
-            addItemToStorage(resumeIndex, r);
+            addResumeToArray(resumeIndex, r);
             size++;
         } else {
-            System.out.printf("ERROR: resume %s is already in storage\n", r.getUuid());
+            throw new ExistStorageException(r.getUuid());
         }
     }
 
     public void update(Resume resume) {
         int resumeIndex = findResumeIndex(resume.getUuid());
         if (resumeIndex < 0) {
-            System.out.printf("ERROR: resume %s is not in storage\n", resume.getUuid());
-            return;
+            throw new NotExistStorageException(resume.getUuid());
         }
         storage[resumeIndex] = resume;
     }
@@ -60,8 +61,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = findResumeIndex(uuid);
         if (index < 0) {
-            System.out.printf("ERROR: resume %s is not in storage\n", uuid);
-            return;
+            throw new NotExistStorageException(uuid);
         } else if (index == size - 1) {
             storage[index] = null;
         } else if (index < size - 1) {
@@ -72,5 +72,5 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract int findResumeIndex(String uuid);
 
-    protected abstract void addItemToStorage(int index, Resume r);
+    protected abstract void addResumeToArray(int index, Resume r);
 }

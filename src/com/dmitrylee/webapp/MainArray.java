@@ -1,7 +1,6 @@
 package com.dmitrylee.webapp;
 
 import com.dmitrylee.webapp.model.Resume;
-import com.dmitrylee.webapp.storage.ArrayStorage;
 import com.dmitrylee.webapp.storage.SortedArrayStorage;
 import com.dmitrylee.webapp.storage.Storage;
 
@@ -38,8 +37,7 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    r = new Resume();
-                    r.setUuid(uuid);
+                    r = new Resume(uuid);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
