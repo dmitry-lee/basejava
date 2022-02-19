@@ -42,12 +42,11 @@ public abstract class AbstractArrayStorage implements Storage {
             throw new StorageException("ERROR: storage is full!", r.getUuid());
         }
         int resumeIndex = findResumeIndex(r.getUuid());
-        if (resumeIndex < 0) {
-            addResumeToArray(resumeIndex, r);
-            size++;
-            return;
+        if (resumeIndex >= 0) {
+            throw new ExistStorageException(r.getUuid());
         }
-        throw new ExistStorageException(r.getUuid());
+        addResumeToArray(resumeIndex, r);
+        size++;
     }
 
     public void update(Resume resume) {
@@ -62,11 +61,11 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = findResumeIndex(uuid);
         if (index < 0) {
             throw new NotExistStorageException(uuid);
-        } else if (index == size - 1) {
-            storage[index] = null;
-        } else if (index < size - 1) {
+        }
+        if (index < size - 1) {
             System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         }
+        storage[size - 1] = null;
         size--;
     }
 

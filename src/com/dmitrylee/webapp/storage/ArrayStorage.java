@@ -2,8 +2,6 @@ package com.dmitrylee.webapp.storage;
 
 import com.dmitrylee.webapp.model.Resume;
 
-import java.util.Arrays;
-
 /**
  * Array based storage for Resumes
  */
