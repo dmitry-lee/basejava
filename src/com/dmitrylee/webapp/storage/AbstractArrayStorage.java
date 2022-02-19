@@ -45,9 +45,9 @@ public abstract class AbstractArrayStorage implements Storage {
         if (resumeIndex < 0) {
             addResumeToArray(resumeIndex, r);
             size++;
-        } else {
-            throw new ExistStorageException(r.getUuid());
+            return;
         }
+        throw new ExistStorageException(r.getUuid());
     }
 
     public void update(Resume resume) {
