@@ -13,8 +13,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void addResumeToArray(int index, Resume r) {
-        int insertionPoint = -(index + 1);
+    protected void addResumeToArray(Resume r) {
+        int insertionPoint = -(findResumeIndex(r.getUuid()) + 1);
         System.arraycopy(storage, insertionPoint, storage, insertionPoint + 1, size - insertionPoint);
         storage[insertionPoint] = r;
     }
