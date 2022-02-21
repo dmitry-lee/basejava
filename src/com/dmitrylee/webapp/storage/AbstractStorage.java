@@ -2,12 +2,9 @@ package com.dmitrylee.webapp.storage;
 
 import com.dmitrylee.webapp.exception.ExistStorageException;
 import com.dmitrylee.webapp.exception.NotExistStorageException;
-import com.dmitrylee.webapp.exception.StorageException;
 import com.dmitrylee.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
-
-    protected Storage storage;
 
     @Override
     public void update(Resume resume) {
@@ -19,9 +16,6 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume r) {
-        if (storageOverflow()) {
-            throw new StorageException("ERROR: storage is full!", r.getUuid());
-        }
         if (getResume(r.getUuid()) != null) {
             throw new ExistStorageException(r.getUuid());
         }
@@ -45,19 +39,6 @@ public abstract class AbstractStorage implements Storage {
         }
         removeResume(resume);
     }
-
-    @Override
-    public abstract void clear();
-
-    @Override
-    public abstract Resume[] getAll();
-
-    @Override
-    public abstract int size();
-
-    protected abstract int findResumeIndex(String uuid);
-
-    protected abstract boolean storageOverflow();
 
     protected abstract void addResumeToStorage(Resume r);
 

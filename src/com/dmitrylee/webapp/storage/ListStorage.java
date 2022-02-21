@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    protected List<Resume> storage = new ArrayList();
+    protected List<Resume> storage = new ArrayList<>();
 
     @Override
     public void clear() {
@@ -24,19 +24,8 @@ public class ListStorage extends AbstractStorage {
         return storage.size();
     }
 
-    @Override
     protected int findResumeIndex(String uuid) {
-        for (Resume resume : storage) {
-            if (resume.getUuid().equals(uuid)) {
-                return storage.indexOf(resume);
-            }
-        }
-        return -1;
-    }
-
-    @Override
-    protected boolean storageOverflow() {
-        return false;
+        return storage.indexOf(new Resume(uuid));
     }
 
     @Override

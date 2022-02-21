@@ -1,5 +1,6 @@
 package com.dmitrylee.webapp.storage;
 
+import com.dmitrylee.webapp.exception.StorageException;
 import com.dmitrylee.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -23,11 +24,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
-    }
-
-    @Override
-    protected boolean storageOverflow() {
-        return size == STORAGE_LIMIT;
     }
 
     @Override
@@ -56,6 +52,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     protected void addResumeToStorage(Resume r) {
+        if (size == STORAGE_LIMIT) {
+            throw new StorageException("ERROR: storage is full!", r.getUuid());
+        }
         addResumeToArray(r);
         size++;
     }
