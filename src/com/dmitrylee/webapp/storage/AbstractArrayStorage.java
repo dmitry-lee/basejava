@@ -27,22 +27,17 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(String uuid) {
-        int resumeIndex = findResumeIndex(uuid);
-        if (resumeIndex < 0) {
-            return null;
-        }
-        return storage[resumeIndex];
+    protected Resume getResume(int index) {
+        return storage[index];
     }
 
     @Override
-    protected void updateResume(Resume resume) {
-        storage[findResumeIndex(resume.getUuid())] = resume;
+    protected void updateResume(Resume resume, int index) {
+        storage[index] = resume;
     }
 
     @Override
-    protected void removeResume(Resume resume) {
-        int index = findResumeIndex(resume.getUuid());
+    protected void removeResume(int index) {
         if (index < size - 1) {
             System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         }
@@ -51,7 +46,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void addResumeToStorage(Resume r) {
+    protected void addResume(Resume r) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("ERROR: storage is full!", r.getUuid());
         }
@@ -60,6 +55,4 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     protected abstract void addResumeToArray(Resume r);
-
-    protected abstract int findResumeIndex(String uuid);
 }
