@@ -27,17 +27,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(int index, String uuid) {
-        return storage[index];
+    protected Resume getResume(String searchKey) {
+        return storage[Integer.parseInt(searchKey)];
     }
 
     @Override
-    protected void updateResume(int index, Resume resume) {
-        storage[index] = resume;
+    protected void updateResume(String searchKey, Resume resume) {
+        storage[Integer.parseInt(searchKey)] = resume;
     }
 
     @Override
-    protected void removeResume(int index, String uuid) {
+    protected void removeResume(String searchKey) {
+        int index = Integer.parseInt(searchKey);
         if (index < size - 1) {
             System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         }
