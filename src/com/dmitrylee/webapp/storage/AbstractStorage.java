@@ -12,7 +12,7 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(resume.getUuid());
         }
-        updateResume(resume, index);
+        updateResume(index, resume);
     }
 
     @Override
@@ -30,7 +30,7 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         }
-        return getResume(index);
+        return getResume(index, uuid);
     }
 
     @Override
@@ -39,16 +39,16 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         }
-        removeResume(index);
+        removeResume(index, uuid);
     }
 
     protected abstract void addResume(Resume r);
 
     protected abstract int findResumeIndex(String uuid);
 
-    protected abstract Resume getResume(int index);
+    protected abstract Resume getResume(int index, String uuid);
 
-    protected abstract void updateResume(Resume resume, int index);
+    protected abstract void updateResume(int index, Resume resume);
 
-    protected abstract void removeResume(int index);
+    protected abstract void removeResume(int index, String uuid);
 }
