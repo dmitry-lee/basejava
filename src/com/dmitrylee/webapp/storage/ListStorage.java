@@ -24,12 +24,12 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected String getResumeSearchKey(String uuid) {
+    protected Integer getResumeSearchKey(String uuid) {
         int index = storage.indexOf(new Resume(uuid));
         if (index < 0) {
             return null;
         }
-        return Integer.toString(index);
+        return index;
     }
 
     @Override
@@ -38,17 +38,17 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(String searchKey) {
-        return storage.get(Integer.parseInt(searchKey));
+    protected Resume getResume(Object searchKey) {
+        return storage.get((int) searchKey);
     }
 
     @Override
-    protected void updateResume(String searchKey, Resume resume) {
-        storage.set(Integer.parseInt(searchKey), resume);
+    protected void updateResume(Object searchKey, Resume resume) {
+        storage.set((int) searchKey, resume);
     }
 
     @Override
-    protected void removeResume(String searchKey) {
-        storage.remove(Integer.parseInt(searchKey));
+    protected void removeResume(Object searchKey) {
+        storage.remove((int) searchKey);
     }
 }

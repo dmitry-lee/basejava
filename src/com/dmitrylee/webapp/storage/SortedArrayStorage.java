@@ -7,13 +7,13 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected String getResumeSearchKey(String uuid) {
+    protected Integer getResumeSearchKey(String uuid) {
         Resume searchKey = new Resume(uuid);
         int index = Arrays.binarySearch(storage, 0, size, searchKey);
         if (index < 0) {
             return null;
         }
-        return Integer.toString(index);
+        return index;
     }
 
     @Override

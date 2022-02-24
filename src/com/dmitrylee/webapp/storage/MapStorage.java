@@ -22,17 +22,17 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(String searchKey) {
+    protected Resume getResume(Object searchKey) {
         return storage.get(searchKey);
     }
 
     @Override
-    protected void updateResume(String searchKey, Resume resume) {
+    protected void updateResume(Object searchKey, Resume resume) {
         storage.replace(resume.getUuid(), resume);
     }
 
     @Override
-    protected void removeResume(String searchKey) {
+    protected void removeResume(Object searchKey) {
         storage.remove(searchKey);
     }
 

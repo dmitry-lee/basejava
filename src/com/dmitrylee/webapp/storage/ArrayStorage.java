@@ -8,10 +8,10 @@ import com.dmitrylee.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected String getResumeSearchKey(String uuid) {
+    protected Integer getResumeSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
-                return Integer.toString(i);
+                return i;
             }
         }
         return null;
