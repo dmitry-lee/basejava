@@ -22,9 +22,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
-    }
+//    public List<Resume> getAllSorted() {
+//        Resume[] resumes = Arrays.copyOf(storage, size);
+//        Arrays.sort(resumes, RESUME_COMPARATOR);
+//        return Arrays.asList(resumes);
+//    }
 
     @Override
     protected Resume getResume(Object searchKey) {
@@ -44,6 +46,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
         storage[size - 1] = null;
         size--;
+    }
+
+    @Override
+    protected Resume[] getResumeArray() {
+        return Arrays.copyOf(storage, size);
     }
 
     @Override
