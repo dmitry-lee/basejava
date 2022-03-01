@@ -48,7 +48,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume[] getResumeArray() {
-        return storage.toArray(new Resume[0]);
+    protected List<Resume> getResumeList() {
+        return storage;
     }
 }

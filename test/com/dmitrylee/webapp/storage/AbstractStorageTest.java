@@ -6,7 +6,11 @@ import com.dmitrylee.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
 
@@ -42,10 +46,10 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
-        Resume[] actual = storage.getAllSorted().toArray(new Resume[0]);
-        Resume[] expected = new Resume[]{new Resume(UUID_1, NAME_1), new Resume(UUID_2, NAME_2), new Resume(UUID_3, NAME_3)};
-        assertArrayEquals(expected, actual);
+    public void getAllSorted() {
+        List<Resume> actual = storage.getAllSorted();
+        List<Resume> expected = Arrays.asList(new Resume(UUID_1, NAME_1), new Resume(UUID_2, NAME_2), new Resume(UUID_3, NAME_3));
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -81,7 +85,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() {
-        storage.update(new Resume("dummy", null));
+        storage.update(new Resume("dummy"));
     }
 
     @Test(expected = NotExistStorageException.class)

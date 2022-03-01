@@ -2,6 +2,8 @@ package com.dmitrylee.webapp.storage;
 
 import com.dmitrylee.webapp.model.Resume;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -19,8 +21,8 @@ public abstract class AbstractMapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume[] getResumeArray() {
-        return storage.values().toArray(new Resume[0]);
+    protected List<Resume> getResumeList() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override

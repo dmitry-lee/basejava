@@ -4,6 +4,7 @@ import com.dmitrylee.webapp.exception.StorageException;
 import com.dmitrylee.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Array based storage for Resumes
@@ -21,12 +22,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
-
-//    public List<Resume> getAllSorted() {
-//        Resume[] resumes = Arrays.copyOf(storage, size);
-//        Arrays.sort(resumes, RESUME_COMPARATOR);
-//        return Arrays.asList(resumes);
-//    }
 
     @Override
     protected Resume getResume(Object searchKey) {
@@ -49,8 +44,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume[] getResumeArray() {
-        return Arrays.copyOf(storage, size);
+    protected List<Resume> getResumeList() {
+        return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
     @Override
