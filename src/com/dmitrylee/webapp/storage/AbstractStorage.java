@@ -9,18 +9,6 @@ import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
 
-    private static class ResumeComparator implements Comparator<Resume>{
-        @Override
-        public int compare(Resume o1, Resume o2) {
-            if (o1.getFullName() == null || o2.getFullName() == null || o1.getFullName().equals(o2.getFullName())) {
-                return o1.getUuid().compareTo(o2.getUuid());
-            }
-            return o1.getFullName().compareTo(o2.getFullName());
-        }
-    }
-
-    protected static final Comparator<Resume> RESUME_COMPARATOR = new ResumeComparator();
-
     @Override
     public void update(Resume resume) {
         updateResume(checkResumeExistence(resume.getUuid(), false), resume);
@@ -56,7 +44,7 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         List<Resume> resumeList = getResumeList();
-        resumeList.sort(RESUME_COMPARATOR);
+        resumeList.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
         return resumeList;
     }
 
