@@ -2,7 +2,7 @@ package com.dmitrylee.webapp.storage;
 
 import com.dmitrylee.webapp.model.Resume;
 
-public class MapUuidStorage extends AbstractMapStorage {
+public class MapUuidStorage extends AbstractMapStorage<String> {
 
     @Override
     protected String getResumeSearchKey(String uuid) {
@@ -13,12 +13,12 @@ public class MapUuidStorage extends AbstractMapStorage {
     }
 
     @Override
-    protected Resume getResume(Object searchKey) {
-        return storage.get(searchKey.toString());
+    protected Resume getResume(String searchKey) {
+        return storage.get(searchKey);
     }
 
     @Override
-    protected void removeResume(Object searchKey) {
-        storage.remove(searchKey.toString());
+    protected void removeResume(String searchKey) {
+        storage.remove(searchKey);
     }
 }

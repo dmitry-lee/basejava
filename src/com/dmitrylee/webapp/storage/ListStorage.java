@@ -5,7 +5,7 @@ import com.dmitrylee.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
     protected List<Resume> storage = new ArrayList<>();
 
     @Override
@@ -33,18 +33,18 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object searchKey) {
-        return storage.get((int) searchKey);
+    protected Resume getResume(Integer searchKey) {
+        return storage.get(searchKey);
     }
 
     @Override
-    protected void updateResume(Object searchKey, Resume resume) {
-        storage.set((int) searchKey, resume);
+    protected void updateResume(Integer searchKey, Resume resume) {
+        storage.set(searchKey, resume);
     }
 
     @Override
-    protected void removeResume(Object searchKey) {
-        storage.remove((int) searchKey);
+    protected void removeResume(Integer searchKey) {
+        storage.remove(storage.get(searchKey));
     }
 
     @Override
