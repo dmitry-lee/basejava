@@ -1,5 +1,7 @@
 package com.dmitrylee.webapp.model;
 
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 /**
@@ -10,6 +12,8 @@ public class Resume {
     // Unique identifier
     private final String uuid;
     private final String fullName;
+    private final Map<ContactType, String> contacts;
+    private final Map<SectionType, AbstractSection> sections;
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -18,6 +22,8 @@ public class Resume {
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
         this.fullName = fullName;
+        contacts = new TreeMap<>();
+        sections = new TreeMap<>();
     }
 
     public String getUuid() {
@@ -46,5 +52,13 @@ public class Resume {
     @Override
     public int hashCode() {
         return uuid.hashCode();
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, AbstractSection> getSections() {
+        return sections;
     }
 }
