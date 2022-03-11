@@ -9,7 +9,7 @@ public class TextSection extends AbstractSection{
     }
 
     @Override
-    public void printSection() {
-        System.out.println(text);
+    public String toString() {
+        return text;
     }
 }

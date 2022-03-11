@@ -3,7 +3,7 @@ package com.dmitrylee.webapp.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListSection extends AbstractSection{
+public class ListSection extends AbstractSection {
     private final List<String> list;
 
     public ListSection() {
@@ -19,9 +19,11 @@ public class ListSection extends AbstractSection{
     }
 
     @Override
-    public void printSection() {
-        for (String s: list) {
-            System.out.println("• " + s);
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (String s : list) {
+            sb.append("• ").append(s).append("\n");
         }
+        return sb.toString();
     }
 }

@@ -1,7 +1,7 @@
 package com.dmitrylee.webapp.model;
 
+import java.util.EnumMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.UUID;
 
 /**
@@ -22,8 +22,8 @@ public class Resume {
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
         this.fullName = fullName;
-        contacts = new TreeMap<>();
-        sections = new TreeMap<>();
+        contacts = new EnumMap<>(ContactType.class);
+        sections = new EnumMap<>(SectionType.class);
     }
 
     public String getUuid() {
@@ -32,6 +32,15 @@ public class Resume {
 
     public String getFullName() {
         return fullName;
+    }
+
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, AbstractSection> getSections() {
+        return sections;
     }
 
     @Override
@@ -46,19 +55,18 @@ public class Resume {
 
         Resume resume = (Resume) o;
 
-        return uuid.equals(resume.uuid);
+        if (!uuid.equals(resume.uuid)) return false;
+        if (!fullName.equals(resume.fullName)) return false;
+        if (!contacts.equals(resume.contacts)) return false;
+        return sections.equals(resume.sections);
     }
 
     @Override
     public int hashCode() {
-        return uuid.hashCode();
-    }
-
-    public Map<ContactType, String> getContacts() {
-        return contacts;
-    }
-
-    public Map<SectionType, AbstractSection> getSections() {
-        return sections;
+        int result = uuid.hashCode();
+        result = 31 * result + fullName.hashCode();
+        result = 31 * result + contacts.hashCode();
+        result = 31 * result + sections.hashCode();
+        return result;
     }
 }

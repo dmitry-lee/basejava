@@ -2,12 +2,12 @@ package com.dmitrylee.webapp.model;
 
 import java.util.List;
 
-public class SectionElement {
+public class Organization {
     private final String title;
     private final String url;
-    private final List<ExpEduElement> elementList;
+    private final List<Experience> elementList;
 
-    public SectionElement(String title, String url, List<ExpEduElement> elementList) {
+    public Organization(String title, String url, List<Experience> elementList) {
         this.title = title;
         this.url = url;
         this.elementList = elementList;
@@ -21,7 +21,7 @@ public class SectionElement {
         return url;
     }
 
-    public List<ExpEduElement> getElementList() {
+    public List<Experience> getElementList() {
         return elementList;
     }
 }

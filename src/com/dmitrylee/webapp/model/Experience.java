@@ -2,13 +2,13 @@ package com.dmitrylee.webapp.model;
 
 import java.time.YearMonth;
 
-public class ExpEduElement {
+public class Experience {
     private final String title;
     private final YearMonth periodFrom;
     private final YearMonth periodTo;
     private final String description;
 
-    public ExpEduElement(String title, YearMonth period, YearMonth periodTo, String description) {
+    public Experience(String title, YearMonth period, YearMonth periodTo, String description) {
         this.title = title;
         this.periodFrom = period;
         this.periodTo = periodTo;
