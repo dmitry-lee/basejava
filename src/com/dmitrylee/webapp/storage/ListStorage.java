@@ -20,11 +20,12 @@ public class ListStorage extends AbstractStorage<Integer> {
 
     @Override
     protected Integer getResumeSearchKey(String uuid) {
-        int index = storage.indexOf(new Resume(uuid, null));
-        if (index < 0) {
-            return null;
+        for (Resume r : storage) {
+            if (r.getUuid().equals(uuid)) {
+                return storage.indexOf(r);
+            }
         }
-        return index;
+        return null;
     }
 
     @Override
