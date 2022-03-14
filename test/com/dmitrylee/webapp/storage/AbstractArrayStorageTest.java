@@ -7,14 +7,14 @@ import org.junit.Test;
 import static com.dmitrylee.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.Assert.fail;
 
-public abstract class AbstractArrayStorageTest extends AbstractStorageTest{
+public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
 
     public AbstractArrayStorageTest(Storage storage) {
         super(storage);
     }
 
     @Test(expected = StorageException.class)
-    public void saveStorageOverflow(){
+    public void saveStorageOverflow() {
         while (storage.size() < STORAGE_LIMIT) {
             try {
                 storage.save(new Resume(NAME_1));

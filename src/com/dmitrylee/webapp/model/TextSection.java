@@ -1,6 +1,6 @@
 package com.dmitrylee.webapp.model;
 
-public class TextSection extends AbstractSection{
+public class TextSection extends AbstractSection {
 
     private final String text;
 

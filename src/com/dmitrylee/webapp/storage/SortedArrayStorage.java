@@ -11,10 +11,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     protected Integer getResumeSearchKey(String uuid) {
         Resume searchKey = new Resume(uuid, "");
         int index = Arrays.binarySearch(storage, 0, size, searchKey, Comparator.comparing(Resume::getUuid));
-        if (index < 0) {
-            return null;
-        }
-        return index;
+        return index < 0 ? null : index;
     }
 
     @Override

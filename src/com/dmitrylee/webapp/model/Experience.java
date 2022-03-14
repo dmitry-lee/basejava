@@ -26,6 +26,7 @@ public class Experience {
     public YearMonth getPeriodTo() {
         return periodTo;
     }
+
     public String getDescription() {
         return description;
     }

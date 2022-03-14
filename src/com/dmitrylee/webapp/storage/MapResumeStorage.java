@@ -6,10 +6,7 @@ public class MapResumeStorage extends AbstractMapStorage<Resume> {
 
     @Override
     protected Resume getResumeSearchKey(String uuid) {
-        if (storage.containsKey(uuid)) {
-            return storage.get(uuid);
-        }
-        return null;
+        return storage.get(uuid);
     }
 
     @Override
