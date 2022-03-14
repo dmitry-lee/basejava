@@ -1,5 +1,6 @@
 package com.dmitrylee.webapp.storage;
 
+import com.dmitrylee.webapp.ResumeTestData;
 import com.dmitrylee.webapp.exception.ExistStorageException;
 import com.dmitrylee.webapp.exception.NotExistStorageException;
 import com.dmitrylee.webapp.model.Resume;
@@ -20,6 +21,9 @@ public abstract class AbstractStorageTest {
     public static final String NAME_1 = "AAA";
     public static final String NAME_2 = "BBB";
     public static final String NAME_3 = "CCC";
+    public static final Resume RESUME_1 = ResumeTestData.getResumeWithTestData(UUID_1, NAME_1);
+    public static final Resume RESUME_2 = ResumeTestData.getResumeWithTestData(UUID_2, NAME_2);
+    public static final Resume RESUME_3 = ResumeTestData.getResumeWithTestData(UUID_3, NAME_3);
     protected final Storage storage;
 
     public AbstractStorageTest(Storage storage) {
@@ -29,9 +33,9 @@ public abstract class AbstractStorageTest {
     @Before
     public void setUp() {
         storage.clear();
-        storage.save(new Resume(UUID_1, NAME_1));
-        storage.save(new Resume(UUID_2, NAME_2));
-        storage.save(new Resume(UUID_3, NAME_3));
+        storage.save(RESUME_1);
+        storage.save(RESUME_2);
+        storage.save(RESUME_3);
     }
 
     @Test
@@ -48,14 +52,14 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() {
         List<Resume> actual = storage.getAllSorted();
-        List<Resume> expected = Arrays.asList(new Resume(UUID_1, NAME_1), new Resume(UUID_2, NAME_2), new Resume(UUID_3, NAME_3));
+        List<Resume> expected = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
         assertEquals(expected, actual);
     }
 
     @Test
     public void get() {
         Resume resume = storage.get(UUID_1);
-        assertEquals(new Resume(UUID_1, NAME_1), resume);
+        assertEquals(RESUME_1, resume);
     }
 
     @Test(expected = NotExistStorageException.class)

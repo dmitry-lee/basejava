@@ -8,8 +8,7 @@ import java.util.*;
 public class ResumeTestData {
 
     public static void main(String[] args) {
-        Resume resume = new Resume("Григорий Кислин");
-        fillData(resume);
+        Resume resume = getResumeWithTestData("uuid1", "Григорий Кислин");
 
         System.out.println(resume.getFullName());
         for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
@@ -82,5 +81,11 @@ public class ResumeTestData {
                                 YearMonth.of(1987, 9),
                                 YearMonth.of(1993, 7), ""))));
         sections.put(SectionType.EDUCATION, new OrganizationSection(education));
+    }
+
+    public static Resume getResumeWithTestData(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
+        fillData(resume);
+        return resume;
     }
 }
