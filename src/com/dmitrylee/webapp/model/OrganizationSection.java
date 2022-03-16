@@ -6,11 +6,11 @@ public class OrganizationSection extends AbstractSection {
 
     private final List<Organization> organizationList;
 
-    public OrganizationSection(List<Organization> elementList) {
-        this.organizationList = elementList;
+    public OrganizationSection(List<Organization> organizationList) {
+        this.organizationList = organizationList;
     }
 
-    public List<Organization> getSectionElementList() {
+    public List<Organization> getOrganizationList() {
         return organizationList;
     }
 
@@ -18,8 +18,8 @@ public class OrganizationSection extends AbstractSection {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (Organization organization : organizationList) {
-            sb.append(organization.getTitle()).append(" ").append(organization.getUrl()).append("\n");
-            for (Experience experience : organization.getElementList()) {
+            sb.append(organization.getLink().getName()).append(" ").append(organization.getLink().getUrl()).append("\n");
+            for (Experience experience : organization.getExperienceList()) {
                 sb.append(experience.getPeriodFrom())
                         .append(" - ")
                         .append(experience.getPeriodTo())

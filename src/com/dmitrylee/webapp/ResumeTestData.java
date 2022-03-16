@@ -53,13 +53,13 @@ public class ResumeTestData {
         sections.put(SectionType.QUALIFICATIONS, qualification);
 
         List<Organization> experience = new ArrayList<>();
-        experience.add(new Organization("Java Online Projects", "http://javaops.ru/",
+        experience.add(new Organization(new Link("Java Online Projects", "http://javaops.ru/"),
                 Collections.singletonList(new Experience("Автор проекта.",
                         YearMonth.of(2013, 10),
                         YearMonth.now(),
                         "Создание, организация и проведение Java онлайн проектов и стажировок."))));
 
-        experience.add(new Organization("Wrike", "https://www.wrike.com/",
+        experience.add(new Organization(new Link("Wrike", "https://www.wrike.com/"),
                 Collections.singletonList(new Experience("Старший разработчик (backend)",
                         YearMonth.of(2013, 10),
                         YearMonth.of(2014, 10),
@@ -68,12 +68,12 @@ public class ResumeTestData {
         sections.put(SectionType.EXPERIENCE, new OrganizationSection(experience));
 
         List<Organization> education = new ArrayList<>();
-        education.add(new Organization("Coursera", "https://www.coursera.org/course/progfun",
+        education.add(new Organization(new Link("Coursera", "https://www.coursera.org/course/progfun"),
                 Collections.singletonList(new Experience("\"Functional Programming Principles in Scala\" by Martin Odersky",
                         YearMonth.of(2013, 3),
                         YearMonth.of(2013, 5), ""))));
 
-        education.add(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/",
+        education.add(new Organization(new Link("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/"),
                 Arrays.asList(new Experience("Аспирантура (программист С, С++)",
                                 YearMonth.of(1993, 9),
                                 YearMonth.of(1996, 7), ""),
