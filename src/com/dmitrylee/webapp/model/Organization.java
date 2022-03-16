@@ -6,8 +6,8 @@ public class Organization {
     private final Link link;
     private final List<Experience> experienceList;
 
-    public Organization(Link link, List<Experience> experienceList) {
-        this.link = link;
+    public Organization(String name, String url, List<Experience> experienceList) {
+        this.link = new Link(name, url);
         this.experienceList = experienceList;
     }
 
