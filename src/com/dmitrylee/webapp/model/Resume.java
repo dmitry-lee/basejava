@@ -1,5 +1,6 @@
 package com.dmitrylee.webapp.model;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.UUID;
@@ -7,8 +8,8 @@ import java.util.UUID;
 /**
  * Initial resume class
  */
-public class Resume {
-
+public class Resume implements Serializable {
+    private static final long serialVersionUID = 1L;
     // Unique identifier
     private final String uuid;
     private final String fullName;

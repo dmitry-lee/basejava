@@ -2,18 +2,20 @@ package com.dmitrylee.webapp.storage;
 
 import com.dmitrylee.webapp.exception.StorageException;
 import com.dmitrylee.webapp.model.Resume;
+import com.dmitrylee.webapp.storage.serializer.StreamSerializer;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
 
     private final File directory;
+    private final StreamSerializer streamSerializer;
 
-    public AbstractFileStorage(File directory) {
+    public FileStorage(File directory, StreamSerializer streamSerializer) {
+        this.streamSerializer = streamSerializer;
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -23,10 +25,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
         this.directory = directory;
     }
-
-    protected abstract Resume readFile(File searchKey) throws IOException;
-
-    protected abstract void saveFile(Resume resume, File file) throws IOException;
 
     @Override
     protected void addResume(Resume r) {
@@ -46,29 +44,28 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Resume getResume(File searchKey) {
+    protected Resume getResume(File file) {
         try {
-            return readFile(searchKey);
+            return streamSerializer.readResume(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("Couldn't read file", searchKey.getName(), e);
+            throw new StorageException("Couldn't read file", file.getName(), e);
         }
     }
 
     @Override
-    protected void updateResume(File searchKey, Resume resume) {
+    protected void updateResume(File file, Resume resume) {
         try {
-            saveFile(resume, searchKey);
+            streamSerializer.writeResume(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Couldn't write file", resume.getUuid(), e);
         }
     }
 
     @Override
-    protected void removeResume(File searchKey) {
-        if (!searchKey.delete()) {
-            throw new StorageException("Couldn't delete file " + searchKey.getAbsolutePath(), searchKey.getName());
+    protected void removeResume(File file) {
+        if (!file.delete()) {
+            throw new StorageException("Couldn't delete file", file.getName());
         }
-
     }
 
     @Override
