@@ -4,15 +4,18 @@ import com.dmitrylee.webapp.exception.StorageException;
 import com.dmitrylee.webapp.model.Resume;
 import com.dmitrylee.webapp.storage.serializer.StreamSerializer;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class PathStorage extends AbstractStorage<Path>{
+public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
     private final StreamSerializer streamSerializer;
 
@@ -25,24 +28,27 @@ public class PathStorage extends AbstractStorage<Path>{
         }
     }
 
-    @Override
-    public void clear() {
+    private Stream<Path> getPaths() {
         try {
-            Files.list(directory).forEach(this::removeResume);
+            return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException("Path delete error", null);
+            throw new StorageException("Path list read error", null);
         }
     }
 
     @Override
+    public void clear() {
+        getPaths().forEach(this::removeResume);
+    }
+
+    @Override
     public int size() {
-        String[] list = directory.toFile().list();
-        return list != null ? list.length : 0;
+        return (int) getPaths().count();
     }
 
     @Override
     protected Path getResumeSearchKey(String uuid) {
-        Path path = Paths.get(directory.toString(), uuid);
+        Path path = directory.resolve(uuid);
         return Files.exists(path) ? path : null;
     }
 
@@ -57,7 +63,7 @@ public class PathStorage extends AbstractStorage<Path>{
 
     @Override
     protected void addResume(Resume r) {
-        Path path = Paths.get(String.valueOf(directory), r.getUuid());
+        Path path = directory.resolve(r.getUuid());
         try {
             Files.createFile(path);
         } catch (IOException e) {
@@ -86,10 +92,6 @@ public class PathStorage extends AbstractStorage<Path>{
 
     @Override
     protected List<Resume> getResumeList() {
-        try {
-            return Files.list(directory).map(this::getResume).collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new StorageException("Directory read error", null);
-        }
+        return getPaths().map(this::getResume).collect(Collectors.toList());
     }
 }
