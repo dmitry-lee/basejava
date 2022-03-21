@@ -4,27 +4,18 @@ import java.io.File;
 
 public class MainFile {
     public static void main(String[] args) {
-        printFiles(new File(".\\src\\com\\dmitrylee\\webapp"));
-        File[] files = new File(".\\storage").listFiles();
-        if (files != null) {
-            for (File f : files) {
-                if (f.delete()) {
-                    System.out.println("Successfully deleted " + f.getName());
-                } else {
-                    System.out.println("failed to delete " + f.getName());
-                }
-            }
-        }
+        printFiles(new File(".\\src\\com\\dmitrylee\\webapp"), "");
     }
 
-    private static void printFiles(File file) {
+    private static void printFiles(File file, String offset) {
         File[] files = file.listFiles();
         if (files != null) {
             for (File f : files) {
                 if (f.isDirectory()) {
-                    printFiles(f);
+                    System.out.println(offset + f.getName());
+                    printFiles(f, offset + " ");
                 } else {
-                    System.out.println(f.getName());
+                    System.out.println(offset + f.getName());
                 }
             }
         }
