@@ -28,14 +28,6 @@ public class PathStorage extends AbstractStorage<Path> {
         }
     }
 
-    private Stream<Path> getPaths() {
-        try {
-            return Files.list(directory);
-        } catch (IOException e) {
-            throw new StorageException("Path list read error", null);
-        }
-    }
-
     @Override
     public void clear() {
         getPaths().forEach(this::removeResume);
@@ -93,5 +85,13 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected List<Resume> getResumeList() {
         return getPaths().map(this::getResume).collect(Collectors.toList());
+    }
+
+    private Stream<Path> getPaths() {
+        try {
+            return Files.list(directory);
+        } catch (IOException e) {
+            throw new StorageException("Path list read error", null);
+        }
     }
 }
