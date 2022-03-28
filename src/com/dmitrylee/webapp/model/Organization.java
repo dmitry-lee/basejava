@@ -1,15 +1,24 @@
 package com.dmitrylee.webapp.model;
 
+import com.dmitrylee.webapp.util.YearMonthAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Link link;
-    private final List<Experience> experienceList;
+    private Link link;
+    private List<Experience> experienceList;
+
+    public Organization() {
+    }
 
     public Organization(String name, String url, List<Experience> experienceList) {
         this.link = new Link(name, url);
@@ -42,13 +51,19 @@ public class Organization implements Serializable {
         return result;
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Experience implements Serializable{
         private static final long serialVersionUID = 1L;
 
-        private final String title;
-        private final YearMonth periodFrom;
-        private final YearMonth periodTo;
-        private final String description;
+        private String title;
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
+        private YearMonth periodFrom;
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
+        private YearMonth periodTo;
+        private String description;
+
+        public Experience() {
+        }
 
         public Experience(String title, YearMonth periodFrom, YearMonth periodTo, String description) {
             Objects.requireNonNull(title, "title must not be null");
