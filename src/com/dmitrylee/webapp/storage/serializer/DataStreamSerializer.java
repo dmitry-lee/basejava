@@ -37,12 +37,14 @@ public class DataStreamSerializer implements StreamSerializer {
                         writeCollection(dos, ((OrganizationSection) section).getOrganizationList(), organization -> {
                             Link link = organization.getLink();
                             dos.writeUTF(link.getName());
-                            dos.writeUTF(link.getUrl());
+                            String url = link.getUrl();
+                            dos.writeUTF(url == null ? "" : url);
                             writeCollection(dos, organization.getExperienceList(), experience -> {
                                 dos.writeUTF(experience.getTitle());
                                 writeYearMonth(dos, experience.getPeriodFrom());
                                 writeYearMonth(dos, experience.getPeriodTo());
-                                dos.writeUTF(experience.getDescription());
+                                String description = experience.getDescription();
+                                dos.writeUTF(description == null ? "" : description);
                             });
                         });
                         break;
@@ -86,26 +88,22 @@ public class DataStreamSerializer implements StreamSerializer {
             case EXPERIENCE:
             case EDUCATION:
                 return new OrganizationSection(
-                        readList(dis, () -> new Organization(
-                                dis.readUTF(), dis.readUTF(), readList(dis, () -> new Organization.Experience(
-                                        dis.readUTF(), readYearMonth(dis), readYearMonth(dis), dis.readUTF())))));
-            default: throw new IllegalStateException();
+                        readList(dis, () -> {
+                            String name = dis.readUTF();
+                            String url = dis.readUTF();
+                            return new Organization(
+                                    name, url.equals("") ? null : url, readList(dis, () -> {
+                                String title = dis.readUTF();
+                                YearMonth periodFrom = readYearMonth(dis);
+                                YearMonth periodTo = readYearMonth(dis);
+                                String description = dis.readUTF();
+                                return new Organization.Experience(
+                                        title, periodFrom, periodTo, description.equals("") ? null : description);
+                            }));
+                        }));
+            default:
+                throw new IllegalStateException();
         }
-    }
-
-    @FunctionalInterface
-    private interface Processor<T> {
-        void process() throws IOException;
-    }
-
-    @FunctionalInterface
-    private interface Reader<T> {
-        T read() throws IOException;
-    }
-
-    @FunctionalInterface
-    private interface Writer<T> {
-        void write(T t) throws IOException;
     }
 
     private <T> List<T> readList(DataInputStream dis, Reader<T> reader) throws IOException {
@@ -129,5 +127,20 @@ public class DataStreamSerializer implements StreamSerializer {
         for (int i = 0; i < size; i++) {
             processor.process();
         }
+    }
+
+    @FunctionalInterface
+    private interface Processor<T> {
+        void process() throws IOException;
+    }
+
+    @FunctionalInterface
+    private interface Reader<T> {
+        T read() throws IOException;
+    }
+
+    @FunctionalInterface
+    private interface Writer<T> {
+        void write(T t) throws IOException;
     }
 }

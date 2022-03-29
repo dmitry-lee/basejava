@@ -47,9 +47,9 @@ public class ResumeTestData {
         sections.put(SectionType.EXPERIENCE, new OrganizationSection(experience));
 
         List<Organization> education = new ArrayList<>();
-        education.add(new Organization("Coursera", "https://www.coursera.org/course/progfun", Collections.singletonList(new Organization.Experience("\"Functional Programming Principles in Scala\" by Martin Odersky", YearMonth.of(2013, 3), YearMonth.of(2013, 5), ""))));
+        education.add(new Organization("Coursera", "https://www.coursera.org/course/progfun", Collections.singletonList(new Organization.Experience("\"Functional Programming Principles in Scala\" by Martin Odersky", YearMonth.of(2013, 3), YearMonth.of(2013, 5), null))));
 
-        education.add(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/", Arrays.asList(new Organization.Experience("Аспирантура (программист С, С++)", YearMonth.of(1993, 9), YearMonth.of(1996, 7), ""), new Organization.Experience("Инженер (программист Fortran, C)", YearMonth.of(1987, 9), YearMonth.of(1993, 7), ""))));
+        education.add(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/", Arrays.asList(new Organization.Experience("Аспирантура (программист С, С++)", YearMonth.of(1993, 9), YearMonth.of(1996, 7), null), new Organization.Experience("Инженер (программист Fortran, C)", YearMonth.of(1987, 9), YearMonth.of(1993, 7), null))));
         sections.put(SectionType.EDUCATION, new OrganizationSection(education));
     }
 
@@ -62,13 +62,13 @@ public class ResumeTestData {
     public static Resume getTestResumeWithNullValues(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
         fillData(resume);
-        resume.getSections().entrySet().stream().
-                filter(entry -> entry.getKey().equals(SectionType.EDUCATION)).
-                forEach(entry -> {
-                    Organization organization = ((OrganizationSection) entry.getValue()).getOrganizationList().get(0);
-                    organization.getLink().setUrl(null);
-                    organization.getExperienceList().get(0).setDescription(null);
-        });
+        for (Map.Entry<SectionType, AbstractSection> entry : resume.getSections().entrySet()) {
+            if (entry.getKey().equals(SectionType.EDUCATION)) {
+                Organization organization = ((OrganizationSection) entry.getValue()).getOrganizationList().get(0);
+                organization.getLink().setUrl(null);
+                organization.getExperienceList().get(0).setDescription(null);
+            }
+        }
         return resume;
     }
 }
