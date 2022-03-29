@@ -91,6 +91,10 @@ public class Organization implements Serializable {
             return description;
         }
 
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;

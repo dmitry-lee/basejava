@@ -23,7 +23,7 @@ public abstract class AbstractStorageTest {
     public static final String NAME_1 = "AAA";
     public static final String NAME_2 = "BBB";
     public static final String NAME_3 = "CCC";
-    public static final Resume RESUME_1 = ResumeTestData.getResumeWithTestData(UUID_1, NAME_1);
+    public static final Resume RESUME_1 = ResumeTestData.getTestResumeWithNullValues(UUID_1, NAME_1);
     public static final Resume RESUME_2 = ResumeTestData.getResumeWithTestData(UUID_2, NAME_2);
     public static final Resume RESUME_3 = ResumeTestData.getResumeWithTestData(UUID_3, NAME_3);
     protected final Storage storage;

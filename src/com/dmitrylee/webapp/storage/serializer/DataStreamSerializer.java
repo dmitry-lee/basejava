@@ -35,8 +35,9 @@ public class DataStreamSerializer implements StreamSerializer {
                     case EXPERIENCE:
                     case EDUCATION:
                         writeCollection(dos, ((OrganizationSection) section).getOrganizationList(), organization -> {
-                            dos.writeUTF(organization.getLink().getName());
-                            dos.writeUTF(organization.getLink().getUrl());
+                            Link link = organization.getLink();
+                            dos.writeUTF(link.getName());
+                            dos.writeUTF(link.getUrl());
                             writeCollection(dos, organization.getExperienceList(), experience -> {
                                 dos.writeUTF(experience.getTitle());
                                 writeYearMonth(dos, experience.getPeriodFrom());
@@ -65,10 +66,7 @@ public class DataStreamSerializer implements StreamSerializer {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
+            readCollection(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
             readCollection(dis, () -> {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 resume.addSection(sectionType, readSection(dis, sectionType));
