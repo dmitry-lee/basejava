@@ -18,22 +18,17 @@ public class MainStreams {
     }
 
     public static int minValue(int[] values) {
-        long[] count = new long[1];
-        count[0] = Arrays.stream(values).distinct().count() - 1;
         return Arrays.stream(values).
                 distinct().
                 sorted().
-                reduce(0, (acc, x) -> (int) (acc + Math.pow(10, count[0]--) * x));
+                reduce(0, (acc, x) -> acc * 10 + x);
     }
 
     public static List<Integer> oddOrEven(List<Integer> integers) {
         int sum = integers.stream().mapToInt(y -> y).sum();
         System.out.println("sum = " + sum);
-        return integers.stream().filter(x -> {
-            if (sum % 2 == 0) {
-                return x % 2 == 0;
-            }
-            return x % 2 != 0;
-        }).collect(Collectors.toList());
+        return integers.stream().
+                filter(x -> (sum % 2 == 0) == (x % 2 == 0)).
+                collect(Collectors.toList());
     }
 }
