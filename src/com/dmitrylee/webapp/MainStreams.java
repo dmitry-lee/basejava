@@ -11,7 +11,7 @@ public class MainStreams {
         System.out.println(minValue(arr));
         System.out.println(minValue(arr2));
 
-        List<Integer> integers1 = Arrays.asList(1, 5, 5, 2, 5);
+        List<Integer> integers1 = Arrays.asList(1, 5, 5, 2, 5, 6);
         System.out.println(oddOrEven(integers1));
         List<Integer> integers2 = Arrays.asList(2, 23, 11, 12, 5);
         System.out.println(oddOrEven(integers2));
@@ -28,7 +28,7 @@ public class MainStreams {
         int sum = integers.stream().mapToInt(y -> y).sum();
         System.out.println("sum = " + sum);
         return integers.stream().
-                filter(x -> (sum % 2 == 0) == (x % 2 == 0)).
+                filter(x -> sum % 2 == x % 2).
                 collect(Collectors.toList());
     }
 }
