@@ -1,5 +1,6 @@
 package com.dmitrylee.webapp.storage;
 
+import com.dmitrylee.webapp.Config;
 import com.dmitrylee.webapp.ResumeTestData;
 import com.dmitrylee.webapp.exception.ExistStorageException;
 import com.dmitrylee.webapp.exception.NotExistStorageException;
@@ -15,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
 
-    protected static final File STORAGE_DIR = new File("C:\\JAVA\\basejava\\storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
     public static final String UUID_1 = "uuid1";
     public static final String UUID_2 = "uuid2";

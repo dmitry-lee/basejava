@@ -55,13 +55,13 @@ public class ResumeTestData {
 
     public static Resume getResumeWithTestData(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
-        fillData(resume);
+        //fillData(resume);
         return resume;
     }
 
     public static Resume getTestResumeWithNullValues(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
-        fillData(resume);
+        //fillData(resume);
         for (Map.Entry<SectionType, AbstractSection> entry : resume.getSections().entrySet()) {
             if (entry.getKey().equals(SectionType.EDUCATION)) {
                 Organization organization = ((OrganizationSection) entry.getValue()).getOrganizationList().get(0);
