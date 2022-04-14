@@ -22,14 +22,11 @@ public class ResumeTestData {
     }
 
     public static void fillData(Resume resume) {
-        Map<ContactType, String> contacts = resume.getContacts();
-        contacts.put(ContactType.TELEPHONE, "+7(921) 855-0482");
-        contacts.put(ContactType.SKYPE, "grigory.kislin");
-        contacts.put(ContactType.EMAIL, "gkislin@yandex.ru");
-        contacts.put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
-        contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
-        contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru/");
+        addContacts(resume);
+        //addSections(resume);
+    }
+
+    private static void addSections(Resume resume) {
         Map<SectionType, AbstractSection> sections = resume.getSections();
         sections.put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
         sections.put(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
@@ -53,15 +50,25 @@ public class ResumeTestData {
         sections.put(SectionType.EDUCATION, new OrganizationSection(education));
     }
 
+    private static void addContacts(Resume resume) {
+        resume.addContact(ContactType.TELEPHONE, "+7(921) 855-0482");
+        resume.addContact(ContactType.SKYPE, "grigory.kislin");
+        resume.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        resume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
+        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
+        resume.addContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
+    }
+
     public static Resume getResumeWithTestData(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
-        //fillData(resume);
+        fillData(resume);
         return resume;
     }
 
     public static Resume getTestResumeWithNullValues(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
-        //fillData(resume);
+        fillData(resume);
         for (Map.Entry<SectionType, AbstractSection> entry : resume.getSections().entrySet()) {
             if (entry.getKey().equals(SectionType.EDUCATION)) {
                 Organization organization = ((OrganizationSection) entry.getValue()).getOrganizationList().get(0);

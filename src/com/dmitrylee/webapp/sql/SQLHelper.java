@@ -1,6 +1,5 @@
 package com.dmitrylee.webapp.sql;
 
-import com.dmitrylee.webapp.exception.ExistStorageException;
 import com.dmitrylee.webapp.exception.StorageException;
 
 import java.sql.Connection;
@@ -19,9 +18,22 @@ public class SQLHelper {
              PreparedStatement ps = conn.prepareStatement(sqlStatement)) {
             return executor.execute(ps);
         } catch (SQLException e) {
-            if (e.getSQLState().equals("23505")) {
-                throw new ExistStorageException(e);
+            throw ExceptionUtil.convertException(e);
+        }
+    }
+
+    public <T> T transactionalExecute(SqlTransaction<T> executor) {
+        try (Connection conn = connectionFactory.getConnection()) {
+            try {
+                conn.setAutoCommit(false);
+                T res = executor.execute(conn);
+                conn.commit();
+                return res;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw ExceptionUtil.convertException(e);
             }
+        } catch (SQLException e) {
             throw new StorageException(e);
         }
     }
