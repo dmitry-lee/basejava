@@ -17,5 +17,16 @@ create table contact
     value       text     not null
 );
 
+create table section
+(
+    id          serial,
+    resume_uuid char(36) not null
+        constraint section_resume_uuid_fk
+            references resume
+            on delete cascade,
+    type        text     not null,
+    value       text     not null
+);
+
 create unique index contact_resume_uuid_type_index
     on contact (resume_uuid, type);
