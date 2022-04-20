@@ -87,28 +87,6 @@ public class SQLStorage implements Storage {
                 });
     }
 
-    private void readSections(Resume resume) {
-        sqlHelper.executeStatement("SELECT type, value FROM section WHERE resume_uuid =?", ps -> {
-            ps.setString(1, resume.getUuid());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                SectionType type = SectionType.valueOf(rs.getString("type"));
-                String value = rs.getString("value");
-                switch (type) {
-                    case PERSONAL:
-                    case OBJECTIVE:
-                        resume.addSection(type, new TextSection(value));
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS:
-                        resume.addSection(type, new ListSection(Arrays.asList(value.split("\n"))));
-                        break;
-                }
-            }
-            return null;
-        });
-    }
-
     @Override
     public void delete(String uuid) {
         sqlHelper.executeStatement("DELETE FROM resume WHERE uuid=?", ps -> {
@@ -130,8 +108,9 @@ public class SQLStorage implements Storage {
                 sqlHelper.executeStatement("SELECT * FROM contact WHERE resume_uuid=?", psContacts -> {
                     psContacts.setString(1, r.getUuid());
                     ResultSet contactsRS = psContacts.executeQuery();
-                    contactsRS.next();
-                    readContacts(r, contactsRS);
+                    if (contactsRS.next()) {
+                        readContacts(r, contactsRS);
+                    }
                     readSections(r);
                     return null;
                 });
@@ -169,6 +148,28 @@ public class SQLStorage implements Storage {
             }
             ps.executeBatch();
         }
+    }
+
+    private void readSections(Resume resume) {
+        sqlHelper.executeStatement("SELECT type, value FROM section WHERE resume_uuid =?", ps -> {
+            ps.setString(1, resume.getUuid());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                SectionType type = SectionType.valueOf(rs.getString("type"));
+                String value = rs.getString("value");
+                switch (type) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        resume.addSection(type, new TextSection(value));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        resume.addSection(type, new ListSection(Arrays.asList(value.split("\n"))));
+                        break;
+                }
+            }
+            return null;
+        });
     }
 
     private void saveSections(Resume resume, Connection conn) throws SQLException {
