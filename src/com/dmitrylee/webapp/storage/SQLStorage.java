@@ -99,32 +99,31 @@ public class SQLStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        LinkedHashMap<String, Resume> map = new LinkedHashMap<>();
-        sqlHelper.executeStatement("SELECT * FROM resume ORDER BY full_name, uuid", ps -> {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                String uuid = rs.getString("uuid");
-                map.put(uuid, new Resume(uuid, rs.getString("full_name")));
+        return sqlHelper.transactionalExecute(conn -> {
+            LinkedHashMap<String, Resume> map = new LinkedHashMap<>();
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume ORDER BY full_name, uuid")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String uuid = rs.getString("uuid");
+                    map.put(uuid, new Resume(uuid, rs.getString("full_name")));
+                }
             }
-            return null;
-        });
-        sqlHelper.executeStatement("SELECT * FROM contact ORDER BY resume_uuid", ps -> {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Resume resume = map.get(rs.getString("resume_uuid"));
-                resume.addContact(ContactType.valueOf(rs.getString("type")), rs.getString("value"));
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact ORDER BY resume_uuid")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Resume resume = map.get(rs.getString("resume_uuid"));
+                    resume.addContact(ContactType.valueOf(rs.getString("type")), rs.getString("value"));
+                }
             }
-            return null;
-        });
-        sqlHelper.executeStatement("SELECT * FROM section ORDER BY resume_uuid", ps -> {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Resume resume = map.get(rs.getString("resume_uuid"));
-                addSection(rs, resume);
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section ORDER BY resume_uuid")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Resume resume = map.get(rs.getString("resume_uuid"));
+                    addSection(rs, resume);
+                }
             }
-            return null;
+            return new ArrayList<>(map.values());
         });
-        return new ArrayList<>(map.values());
     }
 
     @Override

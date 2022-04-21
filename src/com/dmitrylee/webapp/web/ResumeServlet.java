@@ -13,9 +13,15 @@ import java.io.PrintWriter;
 
 public class ResumeServlet extends HttpServlet {
 
+    private Storage storage;
+
+    @Override
+    public void init() {
+        storage = Config.get().getSQLStorage();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Storage storage = Config.get().getSQLStorage();
         PrintWriter writer = response.getWriter();
         writer.println("<html>");
         writer.println("<head><link rel=\"stylesheet\" href=\"css/style.css\"></head>");
