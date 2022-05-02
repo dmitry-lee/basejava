@@ -29,7 +29,6 @@
         </c:forEach>
         <h3>Секции:</h3>
         <c:forEach var="sectionType" items="<%=SectionType.values()%>">
-<%--            <jsp:useBean id="sectionEntry" type="java.util.Map.Entry<com.dmitrylee.webapp.model.SectionType, com.dmitrylee.webapp.model.AbstractSection>"/>--%>
             <dl>
                 <dt>${sectionType.title}</dt>
                 <dd><textarea cols="100" rows="5" name="${sectionType.name()}">${resume.getSection(sectionType)}</textarea></dd>

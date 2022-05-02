@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class ResumeServlet extends HttpServlet {
 
@@ -22,7 +23,7 @@ public class ResumeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         request.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
         String action = request.getParameter("action");
@@ -71,7 +72,9 @@ public class ResumeServlet extends HttpServlet {
                 break;
             case ACHIEVEMENT:
             case QUALIFICATIONS:
-                r.addSection(type, new ListSection(Collections.singletonList(String.join("\n", value))));
+                r.addSection(type, new ListSection(Arrays.stream(value.split("\n")).
+                        filter(item -> !(item.equals("") || item.equals("\r"))).
+                        collect(Collectors.toList())));
                 break;
             case EXPERIENCE:
                 break;
