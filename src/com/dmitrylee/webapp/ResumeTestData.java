@@ -2,8 +2,8 @@ package com.dmitrylee.webapp;
 
 import com.dmitrylee.webapp.model.*;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.time.YearMonth;
+import java.util.*;
 
 public class ResumeTestData {
 
@@ -36,18 +36,18 @@ public class ResumeTestData {
         ListSection qualification = new ListSection(Arrays.asList("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2", "Version control: Subversion, Git, Mercury, ClearCase, Perforce", "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle", "MySQL, SQLite, MS SQL, HSQLDB", "Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy", "XML/XSD/XSLT, SQL, C/C++, Unix shell scripts"));
         sections.put(SectionType.QUALIFICATIONS, qualification);
 
-//        List<Organization> experience = new ArrayList<>();
-//        experience.add(new Organization("Java Online Projects", "http://javaops.ru/", Collections.singletonList(new Organization.Experience("Автор проекта.", YearMonth.of(2013, 10), YearMonth.now(), "Создание, организация и проведение Java онлайн проектов и стажировок."))));
-//
-//        experience.add(new Organization("Wrike", "https://www.wrike.com/", Collections.singletonList(new Organization.Experience("Старший разработчик (backend)", YearMonth.of(2013, 10), YearMonth.of(2014, 10), "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO./**/"))));
-//
-//        sections.put(SectionType.EXPERIENCE, new OrganizationSection(experience));
-//
-//        List<Organization> education = new ArrayList<>();
-//        education.add(new Organization("Coursera", "https://www.coursera.org/course/progfun", Collections.singletonList(new Organization.Experience("\"Functional Programming Principles in Scala\" by Martin Odersky", YearMonth.of(2013, 3), YearMonth.of(2013, 5), null))));
-//
-//        education.add(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/", Arrays.asList(new Organization.Experience("Аспирантура (программист С, С++)", YearMonth.of(1993, 9), YearMonth.of(1996, 7), null), new Organization.Experience("Инженер (программист Fortran, C)", YearMonth.of(1987, 9), YearMonth.of(1993, 7), null))));
-//        sections.put(SectionType.EDUCATION, new OrganizationSection(education));
+        List<Organization> experience = new ArrayList<>();
+        experience.add(new Organization("Java Online Projects", "http://javaops.ru/", Collections.singletonList(new Organization.Experience("Автор проекта.", YearMonth.of(2013, 10), YearMonth.now(), "Создание, организация и проведение Java онлайн проектов и стажировок."))));
+
+        experience.add(new Organization("Wrike", "https://www.wrike.com/", Collections.singletonList(new Organization.Experience("Старший разработчик (backend)", YearMonth.of(2013, 10), YearMonth.of(2014, 10), "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO./**/"))));
+
+        sections.put(SectionType.EXPERIENCE, new OrganizationSection(experience));
+
+        List<Organization> education = new ArrayList<>();
+        education.add(new Organization("Coursera", "https://www.coursera.org/course/progfun", Collections.singletonList(new Organization.Experience("\"Functional Programming Principles in Scala\" by Martin Odersky", YearMonth.of(2013, 3), YearMonth.of(2013, 5), null))));
+
+        education.add(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/", Arrays.asList(new Organization.Experience("Аспирантура (программист С, С++)", YearMonth.of(1993, 9), YearMonth.of(1996, 7), null), new Organization.Experience("Инженер (программист Fortran, C)", YearMonth.of(1987, 9), YearMonth.of(1993, 7), null))));
+        sections.put(SectionType.EDUCATION, new OrganizationSection(education));
     }
 
     private static void addContacts(Resume resume) {

@@ -4,6 +4,7 @@ import com.dmitrylee.webapp.exception.NotExistStorageException;
 import com.dmitrylee.webapp.exception.StorageException;
 import com.dmitrylee.webapp.model.*;
 import com.dmitrylee.webapp.sql.SQLHelper;
+import com.dmitrylee.webapp.util.JsonParser;
 
 import java.sql.*;
 import java.util.*;
@@ -169,7 +170,7 @@ public class SQLStorage implements Storage {
     private void addSection(ResultSet rs, Resume resume) throws SQLException {
         SectionType type = SectionType.valueOf(rs.getString("type"));
         String value = rs.getString("value");
-        switch (type) {
+/*        switch (type) {
             case PERSONAL:
             case OBJECTIVE:
                 resume.addSection(type, new TextSection(value));
@@ -178,7 +179,8 @@ public class SQLStorage implements Storage {
             case QUALIFICATIONS:
                 resume.addSection(type, new ListSection(Arrays.asList(value.split("\n"))));
                 break;
-        }
+        }*/
+        resume.addSection(type, JsonParser.read(value, AbstractSection.class));
     }
 
     private void saveSections(Resume resume, Connection conn) throws SQLException {
@@ -188,7 +190,7 @@ public class SQLStorage implements Storage {
                 SectionType type = e.getKey();
                 ps.setString(2, type.name());
                 AbstractSection section = e.getValue();
-                String value = null;
+/*                String value = null;
                 switch (type) {
                     case PERSONAL:
                     case OBJECTIVE:
@@ -202,7 +204,9 @@ public class SQLStorage implements Storage {
                 if (value != null) {
                     ps.setString(3, value);
                     ps.addBatch();
-                }
+                }*/
+                ps.setString(3, JsonParser.write(section, AbstractSection.class));
+                ps.addBatch();
             }
             ps.executeBatch();
         }

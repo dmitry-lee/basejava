@@ -12,6 +12,7 @@ footer {
     padding: 5px 20px;
     margin: 20px 0;
 }
-table, th, td {
-    border: 1px solid black;
+
+.p1 {
+    font: 25px Georgia sans-serif;
 }

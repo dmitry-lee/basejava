@@ -52,7 +52,7 @@ public class Organization implements Serializable {
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class Experience implements Serializable{
+    public static class Experience implements Serializable {
         private static final long serialVersionUID = 1L;
 
         private String title;
@@ -72,7 +72,7 @@ public class Organization implements Serializable {
             this.title = title;
             this.periodFrom = periodFrom;
             this.periodTo = periodTo;
-            this.description = description;
+            this.description = description == null ? "" : description;
         }
 
         public String getTitle() {
