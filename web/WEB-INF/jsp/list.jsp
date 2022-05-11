@@ -6,31 +6,53 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/light.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/resume-list.css">
+    <link rel="icon" href="img/fav.png">
     <title>Список всех резюме</title>
 </head>
 <body>
 <jsp:include page="/jsp/fragments/header.jsp"/>
-<section>
-    <p class="p1"><a href="resume?action=add"><img src="img/add.png"></a></p>
-    <table border="1" cellpadding="8" cellspacing="0">
-        <tr>
-            <th>Имя</th>
-            <th>Email</th>
-            <th></th>
-            <th></th>
-        </tr>
-        <c:forEach items="${resumes}" var="resume">
-            <jsp:useBean id="resume" type="com.dmitrylee.webapp.model.Resume"/>
-            <tr>
-                <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
-                <td><%=HtmlUtil.contactToHtml(ContactType.EMAIL, resume.getContact(ContactType.EMAIL))%></td>
-                <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png"></a></td>
-                <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/edit.png"></a></td>
-            </tr>
-        </c:forEach>
-    </table>
-</section>
+<div class="scrollable-panel">
+    <div class="table-wrapper">
+        <div class="add-resume">
+            <a class="no-underline-anchor" href="resume?action=add"><img src="img/add.png"></a>
+            <a class="text-anchor" href="resume?action=add">
+                <p class="add-resume-title">Добавить резюме</p>
+            </a>
+        </div>
+        <div class="resumes-list">
+            <table>
+                <tbody>
+                <tr class="t-header">
+                    <th class="name-column">Имя</th>
+                    <th class="info-column">Email</th>
+                    <th class="img-column">Удалить</th>
+                    <th class="img-column">Изменить</th>
+                </tr>
+                <c:forEach items="${resumes}" var="resume">
+                    <jsp:useBean id="resume" type="com.dmitrylee.webapp.model.Resume"/>
+                    <tr class="t-body">
+                        <td class="name-column">
+                            <a class="contact-link" href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a>
+                        </td>
+                        <td class="name-column">
+                            <%=HtmlUtil.contactToHtml(ContactType.EMAIL, resume.getContact(ContactType.EMAIL))%>
+                        </td>
+                        <td class="img-column">
+                            <a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png"></a>
+                        </td>
+                        <td class="img-column">
+                            <a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/edit.png"></a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <jsp:include page="/jsp/fragments/footer.jsp"/>
 </body>
 </html>

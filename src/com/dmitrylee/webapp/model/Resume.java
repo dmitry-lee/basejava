@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.UUID;
@@ -15,11 +16,22 @@ import java.util.UUID;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final Resume BLANK;
     // Unique identifier
     private String uuid;
     private String fullName;
     private Map<ContactType, String> contacts;
     private Map<SectionType, AbstractSection> sections;
+
+    static {
+        BLANK = new Resume("");
+        BLANK.addSection(SectionType.OBJECTIVE, TextSection.BLANK);
+        BLANK.addSection(SectionType.PERSONAL, TextSection.BLANK);
+        BLANK.addSection(SectionType.ACHIEVEMENT, ListSection.BLANK);
+        BLANK.addSection(SectionType.QUALIFICATIONS, ListSection.BLANK);
+        BLANK.addSection(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(Organization.BLANK)));
+        BLANK.addSection(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(Organization.BLANK)));
+    }
 
     public Resume() {
     }

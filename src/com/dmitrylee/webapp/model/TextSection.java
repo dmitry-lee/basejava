@@ -2,6 +2,7 @@ package com.dmitrylee.webapp.model;
 
 public class TextSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
+    public static final TextSection BLANK = new TextSection("");
 
     private String text;
 

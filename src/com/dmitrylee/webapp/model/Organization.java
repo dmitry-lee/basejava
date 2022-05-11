@@ -7,12 +7,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.YearMonth;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final Organization BLANK = new Organization("", "", Arrays.asList(Experience.BLANK));
 
     private Link link;
     private List<Experience> experienceList;
@@ -54,6 +56,7 @@ public class Organization implements Serializable {
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Experience implements Serializable {
         private static final long serialVersionUID = 1L;
+        public static final Experience BLANK = new Experience();
 
         private String title;
         @XmlJavaTypeAdapter(YearMonthAdapter.class)

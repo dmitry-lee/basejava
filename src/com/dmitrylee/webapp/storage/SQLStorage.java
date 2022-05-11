@@ -170,16 +170,6 @@ public class SQLStorage implements Storage {
     private void addSection(ResultSet rs, Resume resume) throws SQLException {
         SectionType type = SectionType.valueOf(rs.getString("type"));
         String value = rs.getString("value");
-/*        switch (type) {
-            case PERSONAL:
-            case OBJECTIVE:
-                resume.addSection(type, new TextSection(value));
-                break;
-            case ACHIEVEMENT:
-            case QUALIFICATIONS:
-                resume.addSection(type, new ListSection(Arrays.asList(value.split("\n"))));
-                break;
-        }*/
         resume.addSection(type, JsonParser.read(value, AbstractSection.class));
     }
 
@@ -190,21 +180,6 @@ public class SQLStorage implements Storage {
                 SectionType type = e.getKey();
                 ps.setString(2, type.name());
                 AbstractSection section = e.getValue();
-/*                String value = null;
-                switch (type) {
-                    case PERSONAL:
-                    case OBJECTIVE:
-                        value = ((TextSection) section).getText();
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS:
-                        value = String.join("\n", ((ListSection) section).getList());
-                        break;
-                }
-                if (value != null) {
-                    ps.setString(3, value);
-                    ps.addBatch();
-                }*/
                 ps.setString(3, JsonParser.write(section, AbstractSection.class));
                 ps.addBatch();
             }
