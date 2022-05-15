@@ -81,7 +81,7 @@ public class HtmlUtil {
     public static YearMonth parseDate(String date) {
         if (isEmpty(date) || "Сейчас".equals(date)) return NOW;
         YearMonth parsedDate = YearMonth.parse(date, FORMATTER);
-        return parsedDate.isAfter(YearMonth.now()) ? NOW : parsedDate;
+        return parsedDate.isAfter(YearMonth.now()) || parsedDate.equals(YearMonth.now())? NOW : parsedDate;
     }
 }
 
