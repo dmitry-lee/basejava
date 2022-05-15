@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 public class HtmlUtil {
 
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM/yyyy");
+    public static final YearMonth NOW = YearMonth.of(3000, 1);
 
     public static String contactToHtml(ContactType contactType, String value) {
         switch (contactType) {
@@ -69,7 +70,8 @@ public class HtmlUtil {
     }
 
     public static String formatDate(YearMonth date) {
-        return date == null ? "" : date.format(FORMATTER);
+        if (date == null) return "";
+        return date.equals(NOW) ? "Сейчас" : date.format(FORMATTER);
     }
 
     public static boolean isEmpty(String str) {
@@ -77,7 +79,9 @@ public class HtmlUtil {
     }
 
     public static YearMonth parseDate(String date) {
-        return isEmpty(date) ? YearMonth.of(3000, 1) : YearMonth.parse(date, FORMATTER);
+        if (isEmpty(date) || "Сейчас".equals(date)) return NOW;
+        YearMonth parsedDate = YearMonth.parse(date, FORMATTER);
+        return parsedDate.isAfter(YearMonth.now()) ? NOW : parsedDate;
     }
 }
 

@@ -28,5 +28,8 @@ create table section
     value       text     not null
 );
 
+create index section_resume_uuid_type_index
+    on section (resume_uuid, type);
+
 create unique index contact_resume_uuid_type_index
     on contact (resume_uuid, type);

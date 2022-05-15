@@ -40,14 +40,10 @@
                 <div class="field-label">${sectionType.title}</div>
                 <c:choose>
                     <c:when test="${sectionType=='PERSONAL' || sectionType=='OBJECTIVE'}">
-                        <textarea class="textarea-field"
-                                  name="${sectionType.name()}">${resume.getSection(sectionType)}
-                        </textarea>
+                        <textarea class="textarea-field" name="${sectionType.name()}">${resume.getSection(sectionType)}</textarea>
                     </c:when>
                     <c:when test="${sectionType=='ACHIEVEMENT' || sectionType=='QUALIFICATIONS'}">
-                        <textarea class="textarea-field"
-                                  name="${sectionType.name()}"><%=HtmlUtil.sectionToHtml(sectionType, resume)%>
-                        </textarea>
+                        <textarea class="textarea-field" name="${sectionType.name()}"><%=HtmlUtil.sectionToHtml(sectionType, resume)%></textarea>
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="org"
@@ -73,9 +69,7 @@
                                 </div>
                                 <input class="field" size="75" name="${sectionType}${counter.index}Title"
                                        value="${exp.title}">
-                                <textarea class="textarea-field"
-                                          name="${sectionType}${counter.index}Description">${exp.description}
-                                </textarea>
+                                <textarea class="textarea-field" name="${sectionType}${counter.index}Description">${exp.description}</textarea>
                             </c:forEach>
                         </c:forEach>
                     </c:otherwise>

@@ -59,9 +59,7 @@ public class ResumeServlet extends HttpServlet {
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
             String[] values = request.getParameterValues(type.name());
-            if (value != null && value.trim().length() != 0) {
-                //&& !value.equals(SectionType.ACHIEVEMENT.name()) && !value.equals(SectionType.EDUCATION.name())) {
-                //addSection(r, type, value);
+            if (value != null && (value.trim().length() != 0 || values.length > 1)) {
                 switch (type) {
                     case PERSONAL:
                     case OBJECTIVE:
@@ -88,37 +86,25 @@ public class ResumeServlet extends HttpServlet {
                                 String[] descriptions = request.getParameterValues(pfx + "Description");
                                 for (int j = 0; j < titles.length; j++) {
                                     if (!HtmlUtil.isEmpty(titles[j])) {
-                                        positions.add(new Organization.Experience(titles[j], HtmlUtil.parseDate(startDates[j]), HtmlUtil.parseDate(endDates[j]), descriptions[j]));
+                                        positions.add(new Organization.Experience(
+                                                titles[j],
+                                                HtmlUtil.parseDate(startDates[j]),
+                                                HtmlUtil.parseDate(endDates[j]),
+                                                descriptions[j]));
                                     }
                                 }
                                 orgs.add(new Organization(name, urls[i], positions));
                             }
                         }
-                        r.getSections().put(type, new OrganizationSection(orgs));
+                        if (orgs.size() > 0){
+                            r.getSections().put(type, new OrganizationSection(orgs));
+                        }
                         break;
                 }
 
             } else {
                 r.getSections().remove(type);
             }
-        }
-    }
-
-    private void addSection(Resume r, SectionType type, String value) {
-        switch (type) {
-            case PERSONAL:
-            case OBJECTIVE:
-                r.addSection(type, new TextSection(value));
-                break;
-            case ACHIEVEMENT:
-            case QUALIFICATIONS:
-                r.addSection(type, new ListSection(Arrays.stream(value.split("\n")).
-                        filter(item -> !(item.equals("") || item.trim().length() == 0)).
-                        collect(Collectors.toList())));
-                break;
-            case EXPERIENCE:
-            case EDUCATION:
-                break;
         }
     }
 
