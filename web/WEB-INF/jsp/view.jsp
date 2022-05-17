@@ -37,8 +37,12 @@
             <jsp:useBean id="section" type="com.dmitrylee.webapp.model.AbstractSection"/>
             <div class="section">${type.title}</div>
             <c:choose>
-                <c:when test="${type=='OBJECTIVE' || type=='PERSONAL'}">
+                <c:when test="${type=='OBJECTIVE'}">
                     <div class="position"><%=((TextSection) section).getText()%>
+                    </div>
+                </c:when>
+                <c:when test="${type=='PERSONAL'}">
+                    <div class="qualities"><%=((TextSection) section).getText()%>
                     </div>
                 </c:when>
                 <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">

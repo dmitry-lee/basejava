@@ -176,17 +176,4 @@ public class ResumeServlet extends HttpServlet {
                 ("view".equals(action) ? "jsp/view.jsp" : "jsp/edit.jsp")
         ).forward(request, response);
     }
-
-    private String getResumesTableHtml(Storage storage) {
-        StringBuilder html = new StringBuilder();
-        html.append("<table><tr><th>UUID</th><th>FULL NAME</th></tr>");
-        for (Resume r : storage.getAllSorted()) {
-            html.append("<tr><td>").
-                    append(r.getUuid()).append("</td>").
-                    append("<td>").append(r.getFullName()).
-                    append("</td></tr>");
-        }
-        html.append("</table>");
-        return html.toString();
-    }
 }
